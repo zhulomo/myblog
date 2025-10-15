@@ -29,3 +29,19 @@ func GetAllArticles() ([]Article, error) {
 
 	return articles, err
 }
+
+func GetArticleById(id int) (*Article, error) {
+	o := orm.NewOrm()
+	article := Article{}
+	err := o.QueryTable("article").Filter("id", id).One(&article)
+	if err != nil {
+		return nil, err
+	}
+	return &article, err
+
+}
+
+func ArticleInsert(article *Article) (int64, error) {
+	o := orm.NewOrm()
+	return o.Insert(article)
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>发布新文章</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+        button {
+            background-color: #0078d7;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #005ea1;
+        }
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #0078d7;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back">← 返回首页</a>
+    <h2>发布新文章</h2>
+
+    <form id="addArticleForm">
+        <div>
+            <label for="title">标题：</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+
+        <div>
+            <label for="abstract">摘要：</label>
+            <textarea id="abstract" name="abstract" required></textarea>
+        </div>
+
+        <div>
+            <label for="content">内容：</label>
+            <textarea id="content" name="content" required></textarea>
+        </div>
+
+        <button type="submit">发布文章</button>
+    </form>
+    <script>
+        const form = document.getElementById("addArticleForm");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const data = new URLSearchParams(formData);
+
+            try {
+                const response = await fetch("/article_add", {
+                    method: "POST",
+                    body: data,
+                });
+
+                const result = await response.text();
+
+                if (response.ok) {
+                    alert("✅ 发布成功！");
+                    window.location.href = "/articlelist.html"; // 跳转到文章列表页
+                } else {
+                    alert("❌ 发布失败：" + result);
+                }
+            } catch (error) {
+                alert("⚠️ 网络错误：" + error.message);
+            }
+        });
+    </script>
+</body>
+</html>

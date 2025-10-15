@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Article.Title}} - 我的博客</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.8;
+            padding: 20px;
+        }
+
+        header {
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .meta {
+            color: #888;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .content {
+            margin-top: 25px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            word-break: break-word;
+        }
+
+        a.back {
+            display: inline-block;
+            margin-top: 30px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a.back:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{{.Article.Title}}</h1>
+        <div class="meta">
+            作者：{{.Article.Author}}  
+            | 发布日期：{{.Article.CreateTime}}  
+            | 浏览量：{{.Article.Id}}
+        </div>
+    </header>
+
+    <article class="content">
+        {{.Article.Content}}
+    </article>
+
+    <a href="/articlelist" class="back">← 返回首页</a>
+
+
+</body>
+
+
+</html>

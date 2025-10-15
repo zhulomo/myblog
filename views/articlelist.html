@@ -44,6 +44,7 @@
                 <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
                 <li class="nav-item"><a class="nav-link" href="/login">登录</a></li>
                 <li class="nav-item"><a class="nav-link" href="/register">注册</a></li>
+                <li class="nav-item"><a class="nav-link" href="/article_add">发布文章</a></li>
                 <li class="nav-item"><a class="nav-link" href="/profile">个人中心</a></li>
             </ul>
         </div>
@@ -75,8 +76,8 @@
                         <div class="card article-card">
                             <div class="card-body">
                                 <h5 class="card-title">${article.Title}</h5>
-                                <p class="card-text">${article.Summary}</p>
-                                <a href="/article/${article.ID}" class="btn btn-primary btn-sm">阅读全文</a>
+                                <p class="card-text">${article.Content}</p>
+                                <a href="/article_detail/${article.Id}" class="btn btn-primary btn-sm">阅读全文</a>
                             </div>
                         </div>
                     `;

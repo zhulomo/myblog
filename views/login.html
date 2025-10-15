@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <!-- <link rel="stylesheet" href="/static/css/style.css"> -->
+    <style>
+        /* 简单样式 */
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 340px;
+        }
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        .login-container input[type="submit"] {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .login-container input[type="submit"]:hover {
+            background: #45a049;
+        }
+        label.error {
+            color: red;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>登录</h2>
+        <form id="login-form" method="post" action="/login">
+            <input type="text" name="username" id="login-username">
+            <input type="password" name="password" id="login-password">
+           
+            <input type="submit" value="登录">
+        </form>
+    </div>
+
+    <!-- ✅ 放在 body 底部 -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery Validate -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+    <!-- jQuery Form -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+
+    <!-- 可选：Bootstrap 样式（如果想让页面好看一些） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- 可选：Bootstrap 脚本（有按钮动画、提示框等） -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#login-form").validate({
+                rules: {
+                    username: {
+                        required: true,
+
+                    },
+                    password: {
+                        required: true,
+
+                    },
+                
+                },
+                
+                submitHandler: function (form) {
+                    $(form).ajaxSubmit({
+                        url: "/login",
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            alert(data.message);
+                            if (data.code === 1) {
+                                setTimeout(function () {
+                                    window.location.href = "/";
+                                }, 1000);
+                            }
+                        },
+                        error: function (xhr) {
+                            alert("请求失败：" + xhr.responseText);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

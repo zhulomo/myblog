@@ -45,3 +45,12 @@ func ArticleInsert(article *Article) (int64, error) {
 	o := orm.NewOrm()
 	return o.Insert(article)
 }
+
+func ArticleUpdate(article *Article) (int64, error) {
+	o := orm.NewOrm()
+	return o.Update(article)
+}
+func ArticleDelete(article *Article) (int64, error) {
+	o := orm.NewOrm()
+	return o.Delete(article)
+}

@@ -3,15 +3,21 @@ package controllers
 import (
 	"myBlog/models"
 
-	"github.com/beego/beego/v2/server/web"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 type ArticleListController struct {
-	web.Controller
+	beego.Controller
 }
 
 func (R *ArticleListController) Get() {
-	R.TplName = "articlelist.html"
+	// username := R.GetSession("username")
+	// if username == nil {
+	// 	R.Redirect("/login", 302)
+	// 	return
+	// }
+	// R.Data["username"] = username
+	R.TplName = "article/list.html"
 }
 
 func (R *ArticleListController) List() {

@@ -4,11 +4,11 @@ import (
 	"myBlog/models"
 	"time"
 
-	"github.com/beego/beego/v2/server/web"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 type RegisterController struct {
-	web.Controller
+	beego.Controller
 }
 type JsonResponse struct {
 	Code    int    `json:"code"`

@@ -11,5 +11,10 @@ import (
 func main() {
 	orm.RunSyncdb("default", false, true)
 	beego.SetStaticPath("/static", "static")
+	beego.BConfig.WebConfig.ViewsPath = "views"
+	//session on
+	beego.BConfig.WebConfig.Session.SessionOn = true
+	beego.BConfig.WebConfig.Session.SessionName = "beegosession"
+
 	beego.Run()
 }

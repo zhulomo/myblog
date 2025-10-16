@@ -3,11 +3,11 @@ package controllers
 import (
 	"myBlog/models"
 
-	"github.com/beego/beego/v2/server/web"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 type ArticleDetailController struct {
-	web.Controller
+	beego.Controller
 }
 
 //路由中指定了get跳转的ShowArticle方法，就不用再写通用的get方法了
@@ -35,5 +35,5 @@ func (R *ArticleDetailController) ShowArticle() {
 		return
 	}
 	R.Data["Article"] = aritcle
-	R.TplName = "article_detail.html"
+	R.TplName = "article/detail.html"
 }

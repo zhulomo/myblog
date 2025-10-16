@@ -1,7 +1,6 @@
 package routers
 
 import (
-	"context"
 	"myBlog/controllers"
 
 	beego "github.com/beego/beego/v2/server/web"
@@ -23,7 +22,7 @@ func init() {
 }
 
 var LoginFilter = func(ctx *context.Context) {
-	username := ctx.Input().Session("username")
+    username := ctx.Input.Session("username")
 	if username == nil {
 		ctx.Redirect(302, "/login")
 	}

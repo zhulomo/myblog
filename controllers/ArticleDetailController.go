@@ -2,12 +2,10 @@ package controllers
 
 import (
 	"myBlog/models"
-
-	beego "github.com/beego/beego/v2/server/web"
 )
 
 type ArticleDetailController struct {
-	beego.Controller
+	BaseController
 }
 
 //路由中指定了get跳转的ShowArticle方法，就不用再写通用的get方法了

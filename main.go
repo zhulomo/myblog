@@ -13,8 +13,8 @@ func main() {
 	beego.SetStaticPath("/static", "static")
 	beego.BConfig.WebConfig.ViewsPath = "views"
 	//session on
-	beego.BConfig.WebConfig.Session.SessionOn = true
-	beego.BConfig.WebConfig.Session.SessionName = "beegosession"
+	// beego.BConfig.WebConfig.Session.SessionOn = true
+	// beego.BConfig.WebConfig.Session.SessionName = "beegosession"
 
 	beego.Run()
 }

@@ -5,11 +5,10 @@ import (
 	"time"
 
 	"github.com/beego/beego/v2/adapter/orm"
-	beego "github.com/beego/beego/v2/server/web"
 )
 
 type ArticleController struct {
-	beego.Controller
+	BaseController
 }
 
 func (R *ArticleController) Get() {

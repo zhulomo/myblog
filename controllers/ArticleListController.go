@@ -2,12 +2,10 @@ package controllers
 
 import (
 	"myBlog/models"
-
-	beego "github.com/beego/beego/v2/server/web"
 )
 
 type ArticleListController struct {
-	beego.Controller
+	BaseController
 }
 
 func (R *ArticleListController) Get() {
@@ -21,6 +19,7 @@ func (R *ArticleListController) Get() {
 }
 
 func (R *ArticleListController) List() {
+
 	articles, err := models.GetAllArticles()
 
 	if err != nil {

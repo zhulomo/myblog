@@ -3,12 +3,10 @@ package controllers
 import (
 	"fmt"
 	"myBlog/models"
-
-	beego "github.com/beego/beego/v2/server/web"
 )
 
 type LoginController struct {
-	beego.Controller
+	BaseController
 }
 
 // 显示登录页面
@@ -18,15 +16,15 @@ func (c *LoginController) Get() {
 
 // 登录 POST
 func (c *LoginController) Post() {
-	fmt.Printf("Request URL: %s, Method: %s\n", c.Ctx.Request.URL.Path, c.Ctx.Request.Method)
-	fmt.Printf("Before SetSession, Controller: %+v\n", c.Controller)
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("Login Panic:", r)
-			c.Data["json"] = JsonResponse{Code: 0, Message: "服务器错误"}
-			c.ServeJSON()
-		}
-	}()
+	// fmt.Printf("Request URL: %s, Method: %s\n", c.Ctx.Request.URL.Path, c.Ctx.Request.Method)
+	// fmt.Printf("Before SetSession, Controller: %+v\n", c.Controller)
+	// defer func() {
+	// 	if r := recover(); r != nil {
+	// 		fmt.Println("Login Panic:", r)
+	// 		c.Data["json"] = JsonResponse{Code: 0, Message: "服务器错误"}
+	// 		c.ServeJSON()
+	// 	}
+	// }()
 
 	username := c.GetString("username")
 	password := c.GetString("password")

@@ -64,7 +64,13 @@
     <article class="content">
         {{.Article.Content}}
     </article>
-    <a href="/article/update?id={{.Article.Id}}" class="back">← 修改文章</a>
+    <ul>
+        {{/*如果已经登录，才会显示"写博客"*/}}
+        {{if .IsLogin}}
+        <li class="nav-item"><a class="nav-link" href="/article/update">修改文章</a></li>
+        {{end}}
+    </ul>
+   
 
     <a href="/article/list" class="back">← 返回首页</a>
     

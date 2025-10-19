@@ -84,6 +84,34 @@ func (R *ArticleController) Post() {
 	}
 
 }
+func (R *ArticleController) DeleteById() {
+	id, _ := R.GetInt("id")
+	author := R.GetString("author")
+	loginuser := R.Loginuser
+	if author == loginuser {
+		article := models.Article{
+			Id: id,
+		}
+		num, err := models.ArticleDelete(&article)
+		if err != nil {
+			R.Data["json"] = map[string]interface{}{"code": 0, "msg": "删除失败"}
+			R.ServeJSON()
+			return
+		}
+		if num != 0 {
+			R.Data["json"] = map[string]interface{}{"code": 1, "msg": "删除成功"}
+			R.ServeJSON()
+
+		} else {
+			R.Data["json"] = map[string]interface{}{"code": 0, "msg": "文章不存在或删除失败"}
+		}
+		R.ServeJSON()
+	} else {
+		R.Data["json"] = map[string]interface{}{"code": 0, "msg": "您无权限删除文章"}
+		R.ServeJSON()
+	}
+
+}
 
 // func (R *ArticleController) UpdateArticle() {
 // 	id, _ := R.GetInt("Id")

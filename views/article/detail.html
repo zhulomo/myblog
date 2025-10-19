@@ -65,18 +65,47 @@
         {{.Article.Content}}
     </article>
     <ul>
-        {{/*如果已经登录，才会显示"写博客"*/}}
         {{if .IsLogin}}
-        <li class="nav-item"><a class="nav-link" href="/article/update">修改文章</a></li>
+        <li class="nav-item"><a class="nav-link" href="/article/update?id={{.Article.Id}}">修改文章</a></li>
+        <li class="nav-item"><button id="delete-btn" data-id="{{.Article.Id}}">删除文章</button></li>
         {{end}}
     </ul>
+
+
    
 
     <a href="/article/list" class="back">← 返回首页</a>
     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script>
+    const deleteBtn = document.getElementById("delete-btn");
+    if(deleteBtn) {
+        deleteBtn.addEventListener("click", function() {
+            if(!confirm("确定要删除这篇文章吗？")) return;
+
+            const articleId = this.getAttribute("data-id");
+
+            fetch(`/article/delete?id=${articleId}`, {
+                method: "POST"
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.code === 1){
+                    alert("删除成功！");
+                    window.location.href = "/article/list";
+                } else {
+                    alert("删除失败：" + data.msg);
+                }
+            });
+        });
+    }
+
+    </script>
 
 </body>
+
 
 
 </html>

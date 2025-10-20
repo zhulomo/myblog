@@ -8,15 +8,15 @@ type ArticleListController struct {
 	BaseController
 }
 
-func (R *ArticleListController) Get() {
-	// username := R.GetSession("username")
-	// if username == nil {
-	// 	R.Redirect("/login", 302)
-	// 	return
-	// }
-	// R.Data["username"] = username
-	R.TplName = "article/list.html"
-}
+// func (R *ArticleListController) Get() {
+// 	// username := R.GetSession("username")
+// 	// if username == nil {
+// 	// 	R.Redirect("/login", 302)
+// 	// 	return
+// 	// }
+// 	// R.Data["username"] = username
+// 	//R.TplName = "article/list.html"
+// }
 
 func (R *ArticleListController) List() {
 

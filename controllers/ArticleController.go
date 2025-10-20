@@ -13,15 +13,34 @@ type ArticleController struct {
 
 func (R *ArticleController) Get() {
 	id, _ := R.GetInt("id")
+	loginuer := R.Loginuser
 
 	if id == 0 {
 		R.TplName = "article/add.html"
 	} else {
-		article := models.Article{Id: id}
 		o := orm.NewOrm()
-		_ = o.Read(&article)
-		R.Data["Article"] = article
-		R.TplName = "article/update.html"
+		article := models.Article{Id: id}
+		err := o.Read(&article)
+		if err != nil {
+			R.Data["json"] = map[string]interface{}{
+				"code": 0,
+				"msg":  "文章不存在",
+			}
+			R.ServeJSON()
+			return
+		}
+
+		if article.Author == loginuer {
+			article := models.Article{Id: id}
+			o := orm.NewOrm()
+			_ = o.Read(&article)
+			R.Data["Article"] = article
+			R.TplName = "article/update.html"
+		} else {
+			R.Data["json"] = map[string]interface{}{"code": 0, "msg": "您无权限修改文章"}
+			R.ServeJSON()
+		}
+
 	}
 }
 
@@ -38,7 +57,13 @@ func (R *ArticleController) Post() {
 	title := R.GetString("title")
 	abstract := R.GetString("abstract")
 	content := R.GetString("content")
-	author := R.GetString("author")
+	loginuser := R.GetSession("username")
+	author, ok := loginuser.(string)
+	if !ok {
+		R.Data["json"] = map[string]interface{}{"code": 0, "msg": "未登录或session失效"}
+		R.ServeJSON()
+		return
+	}
 
 	// user := models.Users{
 	// 	Username:   username,
@@ -81,6 +106,7 @@ func (R *ArticleController) Post() {
 		if num != 0 {
 			R.Ctx.WriteString("更新成功")
 		}
+
 	}
 
 }

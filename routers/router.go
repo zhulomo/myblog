@@ -14,7 +14,7 @@ func init() {
 	beego.Router("/logout", &controllers.LogoutController{})
 	// beego.InsertFilter("/article/*", beego.BeforeRouter, LoginFilter)
 	beego.Router("/article/list", &controllers.ArticleListController{})
-	beego.Router("/api/articles", &controllers.ArticleListController{}, "get:List")
+	beego.Router("/api/articles", &controllers.ArticleListController{}, "get:List;options:Options")
 	beego.Router("/article/detail/:id", &controllers.ArticleDetailController{}, "get:ShowArticle")
 	beego.Router("/article/add", &controllers.ArticleController{})
 	beego.Router("/article/update", &controllers.ArticleController{})

@@ -1,14 +1,13 @@
 package controllers
 
 import (
+	"encoding/json"
 	"myBlog/models"
 	"time"
-
-	beego "github.com/beego/beego/v2/server/web"
 )
 
 type RegisterController struct {
-	beego.Controller
+	BaseController
 }
 type JsonResponse struct {
 	Code    int    `json:"code"`
@@ -16,21 +15,27 @@ type JsonResponse struct {
 }
 
 func (R *RegisterController) Get() {
-	R.TplName = "register.html"
+	//R.TplName = "register.html"
 }
 
 func (R *RegisterController) Post() {
-	username := R.GetString("username")
-	password := R.GetString("password")
-	repassword := R.GetString("repassword")
+	var req struct {
+		Username   string `json:"username"`
+		Password   string `json:"password"`
+		Repassword string `json:"repassword"`
+	}
 
-	if password != repassword {
+	body := R.Ctx.Input.RequestBody
+
+	json.Unmarshal(body, &req)
+
+	if req.Password != req.Repassword {
 		R.Data["json"] = JsonResponse{Code: 0, Message: "两次输入的密码不一致"}
 		R.ServeJSON()
 		return
 	}
 
-	existuser, err := models.GetUserByName(username)
+	existuser, err := models.GetUserByName(req.Username)
 	if err != nil {
 		R.Data["json"] = JsonResponse{Code: 0, Message: "查询失败"}
 		R.ServeJSON()
@@ -43,8 +48,8 @@ func (R *RegisterController) Post() {
 		return
 	}
 	user := models.Users{
-		Username:   username,
-		Password:   password,
+		Username:   req.Username,
+		Password:   req.Password,
 		Status:     0,
 		CreateTime: time.Now(),
 	}

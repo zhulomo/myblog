@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate} from "react-router-dom"
+import Nav from "../../components/nav";
 import "./List.css";
 
 function List() {
@@ -39,7 +40,9 @@ function List() {
         return <p>加载文章失败，请刷新页面</p>;
     }
     return (
-    <div id="article-list">
+      <>
+      <Nav />
+    <div id="article-list">    
       {articles.map((article) => (
         <div key={article.Id} className="card article-card">
           <div className="card-body">
@@ -55,7 +58,10 @@ function List() {
         </div>
       ))}
     </div>
+    </>
   );
+   
+     
 }
 
 export default List;

@@ -7,13 +7,14 @@ import (
 )
 
 func init() {
-	beego.Router("/", &controllers.HomeController{})
+	//beego.Router("/", &controllers.HomeController{})
 
 	beego.Router("/register", &controllers.RegisterController{})
 	beego.Router("/login", &controllers.LoginController{})
 	beego.Router("/logout", &controllers.LogoutController{})
 	// beego.InsertFilter("/article/*", beego.BeforeRouter, LoginFilter)
 	beego.Router("/article/list", &controllers.ArticleListController{})
+	beego.Router("/loginverify", &controllers.LoginController{}, "get:LoginVerify")
 	beego.Router("/api/articles", &controllers.ArticleListController{}, "get:List;options:Options")
 	beego.Router("/article/detail/:id", &controllers.ArticleDetailController{}, "get:ShowArticle")
 	beego.Router("/article/add", &controllers.ArticleController{})

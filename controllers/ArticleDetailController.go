@@ -24,14 +24,26 @@ func (R *ArticleDetailController) ShowArticle() {
 	aritcle, err := models.GetArticleById(id)
 
 	if err != nil {
-		R.Ctx.WriteString("发生奇怪的错误")
+		R.Data["json"] = map[string]interface{}{
+			"code":    0,
+			"message": "获取失败",
+		}
+		R.ServeJSON()
 		return
 	}
 
 	if aritcle == nil {
-		R.Ctx.WriteString("文章消失了")
+		R.Data["json"] = map[string]interface{}{
+			"code":    0,
+			"message": "文章消失了",
+		}
+		R.ServeJSON()
 		return
 	}
-	R.Data["Article"] = aritcle
-	R.TplName = "article/detail.html"
+	R.Data["json"] = map[string]interface{}{
+		"code":    1,
+		"article": aritcle,
+	}
+	R.ServeJSON()
+
 }

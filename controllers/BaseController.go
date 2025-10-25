@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"fmt"
-
 	beego "github.com/beego/beego/v2/server/web"
 )
 
@@ -19,15 +17,6 @@ func (R *BaseController) Prepare() {
 	R.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	R.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Credentials", "true")
 
-	username := R.GetSession("username")
-	fmt.Println("loginuser---->", username)
-	if username != nil {
-		R.IsLogin = true
-		R.Loginuser = username
-	} else {
-		R.IsLogin = false
-	}
-	R.Data["IsLogin"] = R.IsLogin
 }
 func (c *BaseController) Options() {
 	c.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")

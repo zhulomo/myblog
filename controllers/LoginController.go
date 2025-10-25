@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"myBlog/models"
 )
 
@@ -10,9 +11,9 @@ type LoginController struct {
 }
 
 // 显示登录页面
-func (c *LoginController) Get() {
-	// c.TplName = "login.html"
-}
+// func (c *LoginController) Get() {
+// 	// c.TplName = "login.html"
+// }
 
 // 登录 POST
 func (c *LoginController) Post() {
@@ -32,6 +33,27 @@ func (c *LoginController) Post() {
 		c.Data["json"] = map[string]interface{}{"code": 1, "msg": "登录成功"}
 	}
 	c.ServeJSON()
+}
+
+// 判断是否登录
+func (R *BaseController) LoginVerify() {
+	username := R.GetSession("username")
+	fmt.Println("loginuser---->", username)
+	if username != nil {
+		R.Data["json"] = map[string]interface{}{
+			"code":     1,
+			"isLogin":  true,
+			"username": username,
+		}
+		// R.IsLogin = true
+		// R.Loginuser = username
+	} else {
+		R.Data["json"] = map[string]interface{}{
+			"code":    1,
+			"isLogin": true,
+		}
+	}
+	R.ServeJSON()
 }
 
 // func (c *LoginController) Post() {

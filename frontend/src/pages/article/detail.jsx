@@ -25,7 +25,9 @@ function Detail() {
         })
         .then(res => res.json())
         .then(data => {
-            setIsLogin(data.IsLogin);
+            console.log("logindata:",data)
+            setIsLogin(data.isLogin);
+            console.log("login:", data.isLogin)
         })
         .catch(err => console.error("登录状态获取失败:", err));
         }, [id]);
@@ -60,7 +62,7 @@ function Detail() {
             <header>
                 <h1>{article.Title}</h1>
                 <div className="meta">
-                    作者：{article.Author} 
+                    作者：{article.Author}
                     |发布日期：{article.CreateTime}
                     |浏览量：{article.Id}
                 </div>

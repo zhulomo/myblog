@@ -1,0 +1,101 @@
+body {
+  font-family: "Microsoft YaHei", sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+/* 整个页面区域 */
+.article-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #fff;
+  padding: 40px 60px;
+  box-sizing: border-box;
+}
+
+/* 返回链接 */
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #0078d7;
+  text-decoration: none;
+  font-size: 15px;
+}
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* 标题 */
+.article-page h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 26px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* 表单主体 */
+.article-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* 标签 */
+.article-form label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* 输入框与文本域 */
+.article-form input[type="text"],
+.article-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.article-form input[type="text"]:focus,
+.article-form textarea:focus {
+  border-color: #0078d7;
+  outline: none;
+}
+
+.article-form textarea {
+  min-height: 400px;
+  resize: vertical;
+}
+
+/* 按钮区域靠右 */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.article-form button {
+  background-color: #0078d7;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.article-form button:hover {
+  background-color: #005ea1;
+}
+
+.article-form button:active {
+  transform: scale(0.98);
+}

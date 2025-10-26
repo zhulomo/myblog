@@ -13,7 +13,9 @@ function Nav() {
         })
         .then(res => res.json())
         .then(data => {
+          console.log("data1",data)
             if (data.isLogin) {
+                console.log(data.isLogin)
                 setIsLogin(true);
                 setUsername(data.username);
             }

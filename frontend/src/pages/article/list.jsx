@@ -4,9 +4,9 @@ import Nav from "../../components/nav";
 import "./List.css";
 
 function List() {
-    const [articles, setArticles] = useState([])
-    const [IsLogin, setIsLogin] = useState(false)
-    const [loading, setLoading] = useState(true)
+    const [articles, setArticles] = useState([]);
+    const [IsLogin, setIsLogin] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         //加载文章
@@ -18,7 +18,7 @@ function List() {
         })
         .then((res) => res.json())
         .then((data) => {
-            console.log(data);
+            console.log(data.IsLogin);
             setIsLogin(data.IsLogin || false);
 
             if(data.code === 1 && Array.isArray(data.data)) {

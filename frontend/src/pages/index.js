@@ -3,6 +3,7 @@ import Register from "./register";
 import List from "./article/list";
 import Home from "./home";
 import Detail from "./article/detail";
+import Add from "./article/add";
 
 
-export { Login, Register, List, Home, Detail};
+export { Login, Register, List, Home, Detail, Add};

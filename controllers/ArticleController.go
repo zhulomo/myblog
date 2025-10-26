@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"myBlog/models"
 	"time"
 
@@ -54,9 +55,17 @@ func (R *ArticleController) Post() {
 	// 	CreateTime time.Time `orm:"auto_now_add;type(datetime)"`
 	//
 	id, _ := R.GetInt("id")
-	title := R.GetString("title")
-	abstract := R.GetString("abstract")
-	content := R.GetString("content")
+	// title := R.GetString("title")
+	// abstract := R.GetString("abstract")
+	// content := R.GetString("content")
+	var req struct {
+		Title    string `json:"title"`
+		Abstract string `json:"absract"`
+		Content  string `json:"content"`
+	}
+	body := R.Ctx.Input.RequestBody
+	json.Unmarshal(body, &req)
+
 	loginuser := R.GetSession("username")
 	author, ok := loginuser.(string)
 	if !ok {
@@ -74,9 +83,9 @@ func (R *ArticleController) Post() {
 	var article models.Article
 	if id == 0 {
 		article = models.Article{
-			Title:      title,
-			Abstract:   abstract,
-			Content:    content,
+			Title:      req.Title,
+			Abstract:   req.Abstract,
+			Content:    req.Content,
 			Author:     author,
 			CreateTime: time.Now(),
 		}
@@ -84,17 +93,18 @@ func (R *ArticleController) Post() {
 		_, err := models.ArticleInsert(&article)
 
 		if err != nil {
-			R.Ctx.WriteString("出错")
-			return
+			R.Data["json"] = map[string]interface{}{"code": 0, "msg": "出错"}
+		} else {
+			R.Data["json"] = map[string]interface{}{"code": 1, "msg": "发布文章成功"}
 		}
+		R.ServeJSON()
 
-		R.Ctx.WriteString("发布成功")
 	} else {
 		article.Id = id
-		article.Title = title
-		article.Abstract = abstract
+		article.Title = req.Title
+		article.Abstract = req.Abstract
 		article.Author = author
-		article.Content = content
+		article.Content = req.Content
 
 		// o := orm.NewOrm
 		// error := o.Read(&article)

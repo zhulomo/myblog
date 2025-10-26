@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"myBlog/models"
 )
 
@@ -21,6 +22,8 @@ type ArticleListController struct {
 func (R *ArticleListController) List() {
 
 	articles, err := models.GetAllArticles()
+	username := R.GetSession("username")
+	fmt.Println("session is", username)
 
 	if err != nil {
 		R.Data["json"] = map[string]interface{}{

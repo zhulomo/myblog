@@ -30,6 +30,8 @@ func (c *LoginController) Post() {
 		c.Data["json"] = map[string]interface{}{"code": 0, "msg": "用户名或密码错误"}
 	} else {
 		c.SetSession("username", req.Username)
+		fmt.Println("usersession---->", req.Username)
+
 		c.Data["json"] = map[string]interface{}{"code": 1, "msg": "登录成功"}
 	}
 	c.ServeJSON()
@@ -49,8 +51,8 @@ func (R *BaseController) LoginVerify() {
 		// R.Loginuser = username
 	} else {
 		R.Data["json"] = map[string]interface{}{
-			"code":    1,
-			"isLogin": true,
+			"code":    0,
+			"isLogin": false,
 		}
 	}
 	R.ServeJSON()

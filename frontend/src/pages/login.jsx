@@ -17,12 +17,17 @@ function Login() {
                 body: JSON.stringify({ 
                     username: username,
                     password: password,}),
+                    credentials: "include",
             });
 
             const data = await res.json();
 
             if (data.code === 1) {
                 setMsg("登录成功")
+                // 登录成功时
+                localStorage.setItem("username", username);
+                console.log("username",username)
+
                 setTimeout(() => navigate("/article/list"), 2000);
             } else {
                 setMsg(data.msg || "用户名或密码错误");

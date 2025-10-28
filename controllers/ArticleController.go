@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"myBlog/models"
 	"time"
 
@@ -14,35 +15,40 @@ type ArticleController struct {
 
 func (R *ArticleController) Get() {
 	id, _ := R.GetInt("id")
-	loginuer := R.Loginuser
-
-	if id == 0 {
-		R.TplName = "article/add.html"
-	} else {
-		o := orm.NewOrm()
-		article := models.Article{Id: id}
-		err := o.Read(&article)
-		if err != nil {
-			R.Data["json"] = map[string]interface{}{
-				"code": 0,
-				"msg":  "文章不存在",
-			}
-			R.ServeJSON()
-			return
+	loginuser := R.GetSession("username")
+	fmt.Println("updateloginuser:", loginuser)
+	//if id == 0 {
+	//R.TplName = "article/add.html"
+	//} else {
+	o := orm.NewOrm()
+	article := models.Article{Id: id}
+	err := o.Read(&article)
+	if err != nil {
+		R.Data["json"] = map[string]interface{}{
+			"code": 0,
+			"msg":  "文章不存在",
 		}
-
-		if article.Author == loginuer {
-			article := models.Article{Id: id}
-			o := orm.NewOrm()
-			_ = o.Read(&article)
-			R.Data["Article"] = article
-			R.TplName = "article/update.html"
-		} else {
-			R.Data["json"] = map[string]interface{}{"code": 0, "msg": "您无权限修改文章"}
-			R.ServeJSON()
-		}
-
+		R.ServeJSON()
+		return
 	}
+
+	if article.Author == loginuser {
+		article := models.Article{Id: id}
+		o := orm.NewOrm()
+		_ = o.Read(&article)
+		R.Data["json"] = map[string]interface{}{
+			"code":    1,
+			"article": article,
+		}
+		R.ServeJSON()
+		return
+		//R.TplName = "article/update.html"
+	} else {
+		R.Data["json"] = map[string]interface{}{"code": 0, "msg": "您无权限修改文章"}
+		R.ServeJSON()
+	}
+
+	//}
 }
 
 func (R *ArticleController) Post() {
@@ -110,12 +116,13 @@ func (R *ArticleController) Post() {
 		// error := o.Read(&article)
 		num, err := models.ArticleUpdate(&article)
 		if err != nil {
-			R.Ctx.WriteString("更新出错")
+			R.Data["json"] = map[string]interface{}{"code": 0, "msg": "更新出错"}
 			return
 		}
 		if num != 0 {
-			R.Ctx.WriteString("更新成功")
+			R.Data["json"] = map[string]interface{}{"code": 1, "msg": "更新成功"}
 		}
+		R.ServeJSON()
 
 	}
 

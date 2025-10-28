@@ -7,6 +7,7 @@ function Detail() {
     const [article, setArticle] = useState({});
     const { id } = useParams();
     const [IsLogin, setIsLogin] = useState(false);
+    const [msg, setMsg] = useState("");
     const navigate = useNavigate();
     useEffect(() => {
         fetch(`http://localhost:8080/article/detail/${id}`)
@@ -24,17 +25,30 @@ function Detail() {
             credentials: "include",
         })
         .then(res => res.json())
-        .then(data => {
-            console.log("logindata:",data)
+        .then(data => { 
             setIsLogin(data.isLogin);
-            console.log("login:", data.isLogin)
         })
         .catch(err => console.error("登录状态获取失败:", err));
         }, [id]);
     
 
     const handleUpdate = () => {
-        navigate(`/article/update?id=${article.Id}`);
+        if(!window.confirm("确定要修改这篇文章吗?")) return;
+        fetch(`http://localhost:8080/article/update?id=${id}`, {
+            method: "GET",
+            credentials: "include",
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log("return data:", data)
+            if (data.code === 1) {
+                console.log("传递的数据", data)
+                navigate(`/article/update?id=${article.Id}`, { state: { data }});
+            } else {
+                setMsg(data.msg);
+            }
+        })
+        
     };
     const handleDelete = () => {
     if (!window.confirm("确定要删除这篇文章吗？")) return;

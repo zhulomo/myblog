@@ -5,6 +5,7 @@ import Home from "./home";
 import Detail from "./article/detail";
 import Add from "./article/add";
 import Update from "./article/update";
+import Logout from "./logout";
 
 
-export { Login, Register, List, Home, Detail, Add, Update};
+export { Logout, Login, Register, List, Home, Detail, Add, Update };

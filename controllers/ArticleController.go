@@ -128,14 +128,24 @@ func (R *ArticleController) Post() {
 
 }
 func (R *ArticleController) DeleteById() {
-	id, _ := R.GetInt("id")
-	author := R.GetString("author")
-	loginuser := R.Loginuser
+	//id, _ := R.GetInt("id")
+	//author := R.GetString("author")
+	loginuser := R.GetSession("username")
+	var req struct {
+		Id int `json:"id"`
+	}
+	json.Unmarshal(R.Ctx.Input.RequestBody, &req)
+	id := req.Id
+	article, err := models.GetArticleById(id)
+	if err != nil {
+		R.Data["json"] = map[string]interface{}{"code": 0, "mas": "文章不存在"}
+		R.ServeJSON()
+		return
+	}
+	author := article.Author
 	if author == loginuser {
-		article := models.Article{
-			Id: id,
-		}
-		num, err := models.ArticleDelete(&article)
+
+		num, err := models.ArticleDelete(id)
 		if err != nil {
 			R.Data["json"] = map[string]interface{}{"code": 0, "msg": "删除失败"}
 			R.ServeJSON()

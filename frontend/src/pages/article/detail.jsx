@@ -15,10 +15,18 @@ function Detail() {
         .then((res) => res.json())
         .then((data) => {
             console.log(data);
-            setArticle(data.article);
+            if (data.code === 1) {
+                 setArticle(data.article);
+            } else  {
+               navigate("/article/list");
+            }
             
         })
-        .catch((err) =>  console.error("获取文章失败:", err));
+        .catch((err) => {
+            console.error("获取文章失败:", err);
+            navigate("/article/list");
+        }); 
+       
 
         fetch("http://localhost:8080/loginverify", {
             method: "GET",

@@ -6,5 +6,6 @@ type LogoutController struct {
 
 func (R *LogoutController) Get() {
 	R.DestroySession()
-	R.Redirect("/login", 302)
+	R.Data["json"] = map[string]interface{}{"success": true}
+	R.ServeJSON()
 }

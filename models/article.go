@@ -50,7 +50,7 @@ func ArticleUpdate(article *Article) (int64, error) {
 	o := orm.NewOrm()
 	return o.Update(article)
 }
-func ArticleDelete(article *Article) (int64, error) {
+func ArticleDelete(id int) (int64, error) {
 	o := orm.NewOrm()
-	return o.Delete(article)
+	return o.QueryTable("article").Filter("id", id).Delete()
 }

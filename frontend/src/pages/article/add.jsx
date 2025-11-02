@@ -1,15 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 //import Nav from "../../components/nav";
 import "./Add.css";
 
 function Add() {
+    const [isLogin, setIsLogin] = useState(false);
     const [title,  setTitle] = useState("");
     const [author, setAuthor] = useState("");
     const [content, setContent] = useState("");
     const [abstract, setAbstract] = useState("");
     const [msg, setMsg] = useState("");
     const navigate = useNavigate();
+    useEffect(() => {
+      // fetch("http://localhost:8080/loginverify", {
+      //   method: "GET",
+      //   credentials: "include",
+      // })
+      // .then(res => res.json())
+      // .then(data => {
+      //   if (!data.isLogin) {
+      //     navigate("/login");
+      //   }
+      // })
+      console.log(localStorage.getItem("username"))
+      if (localStorage.getItem("username") == null) {
+        navigate("/login");
+      }
+    });
     const handleSubmit = async (e) => {
         e.preventDefault();//阻止表单默认提交行为
         const author = localStorage.getItem("username") || "匿名";

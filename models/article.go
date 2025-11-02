@@ -54,3 +54,21 @@ func ArticleDelete(id int) (int64, error) {
 	o := orm.NewOrm()
 	return o.QueryTable("article").Filter("id", id).Delete()
 }
+
+func GetArticleByPage(page int, pageSize int) ([]Article, int64, error) {
+	o := orm.NewOrm()
+	var articles []Article
+	//查询总数
+	total, err := o.QueryTable("article").Count()
+	if err != nil {
+		return nil, 0, err
+	}
+	//分页查询
+	_, err = o.QueryTable("article").OrderBy("-id").
+		Limit(pageSize, (page-1)*pageSize).
+		All((&articles))
+	if err != nil {
+		return nil, 0, err
+	}
+	return articles, total, nil
+}

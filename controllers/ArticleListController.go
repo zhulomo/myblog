@@ -21,7 +21,11 @@ type ArticleListController struct {
 
 func (R *ArticleListController) List() {
 
-	articles, err := models.GetAllArticles()
+	page, _ := R.GetInt("page", 1)
+	pageSize, _ := R.GetInt("pageSize", 5)
+	articles, total, err := models.GetArticleByPage(page, pageSize)
+
+	//articles, err := models.GetAllArticles()
 	username := R.GetSession("username")
 	fmt.Println("session is", username)
 
@@ -34,8 +38,11 @@ func (R *ArticleListController) List() {
 		return
 	}
 	R.Data["json"] = map[string]interface{}{
-		"code": 1,
-		"data": articles,
+		"code":     1,
+		"data":     articles,
+		"total":    total,
+		"page":     page,
+		"pageSize": pageSize,
 	}
 	R.ServeJSON()
 

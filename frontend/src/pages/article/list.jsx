@@ -7,10 +7,14 @@ function List() {
     const [articles, setArticles] = useState([]);
     const [IsLogin, setIsLogin] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [pageSize] = useState(5);
+    const [total, setTotal] = useState(0);
+
 
     useEffect(() => {
         //加载文章
-        fetch("http://localhost:8080/api/articles", {
+        fetch(`http://localhost:8080/api/articles?page=${page}&pageSize=${pageSize}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             credentials: "include"
@@ -18,11 +22,12 @@ function List() {
         })
         .then((res) => res.json())
         .then((data) => {
-            console.log(data.IsLogin);
+            console.log("一共",data.total);
             setIsLogin(data.IsLogin || false);
 
             if(data.code === 1 && Array.isArray(data.data)) {
                 setArticles(data.data);
+                setTotal(data.total);
             } else {
                 setArticles([]);
             }
@@ -32,7 +37,7 @@ function List() {
             setArticles([]);
         })
         .finally(() => setLoading(false));
-    }, []);
+    }, [page]);
     if (loading) {
         return <p>加载中...</p>;
     }
@@ -58,7 +63,16 @@ function List() {
         </div>
       ))}
     </div>
+
+    {/* 分页组件 */}
+    <div className="pagination">
+      <button disabled={page === 1} onClick={() => setPage(page - 1)}>上一页</button>
+      <span>第 {page} 页 / 共 {Math.ceil(total / pageSize)} 页</span>
+      <button disabled={page * pageSize >= total} onClick={() => setPage(page + 1)}>下一页</button>
+    </div>
+
     </>
+    
   );
    
      

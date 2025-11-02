@@ -13,6 +13,7 @@ function Logout() {
         })
         .then(() => {
             alert("已退出登录");
+            localStorage.removeItem("username");
             navigate("/login");
         })
         .catch(() => {

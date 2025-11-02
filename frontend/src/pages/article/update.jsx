@@ -21,6 +21,11 @@ function Update() {
     console.log("接受的数据：",article.Id)
     const id =  article.Id;
     console.log("id是", id)
+    useEffect(() => {
+        if(localStorage.getItem("username")  ==  null) {
+            navigate("/login");
+        }
+    });
 
     useEffect(() => {
         if (article) {

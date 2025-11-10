@@ -10,7 +10,7 @@ function Detail() {
     const [msg, setMsg] = useState("");
     const navigate = useNavigate();
     useEffect(() => {
-        fetch(`http://localhost:8080/article/detail/${id}`)
+        fetch(`http://localhost:8080/api/article/detail/${id}`)
        
         .then((res) => res.json())
         .then((data) => {
@@ -28,7 +28,7 @@ function Detail() {
         }); 
        
 
-        fetch("http://localhost:8080/loginverify", {
+        fetch("http://localhost:8080/api/loginverify", {
             method: "GET",
             credentials: "include",
         })
@@ -42,7 +42,7 @@ function Detail() {
 
     const handleUpdate = () => {
         if(!window.confirm("确定要修改这篇文章吗?")) return;
-        fetch(`http://localhost:8080/article/update?id=${id}`, {
+        fetch(`http://localhost:8080/api/article/update?id=${id}`, {
             method: "GET",
             credentials: "include",
         })
@@ -51,7 +51,7 @@ function Detail() {
             console.log("return data:", data)
             if (data.code === 1) {
                 console.log("传递的数据", data)
-                navigate(`/article/update?id=${article.Id}`, { state: { data }});
+                navigate(`/article/update?id=${article.id}`, { state: { data }});
             } else {
                 setMsg(data.msg);
             }
@@ -60,10 +60,10 @@ function Detail() {
     };
     const handleDelete = () => {
     if (!window.confirm("确定要删除这篇文章吗？")) return;
-    fetch("http://localhost:8080/article/delete", {
+    fetch("http://localhost:8080/api/article/delete", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: article.Id }),
+      body: JSON.stringify({ id: article.id }),
       credentials: "include",
     })
       .then(res => res.json())
@@ -82,14 +82,14 @@ function Detail() {
         <div className="article-detail">
             <Nav />
             <header>
-                <h1>{article.Title}</h1>
+                <h1>{article.title}</h1>
                 <div className="meta">
-                    作者：{article.Author}
-                    |发布日期：{article.CreateTime}
-                    |浏览量：{article.Id}
+                    作者：{article.author}
+                    |发布日期：{article.createTime}
+                    |浏览量：{article.id}
                 </div>
             </header>
-            <article className="content">{article.Content}</article>
+            <article className="content">{article.content}</article>
             {IsLogin && (
                 <ul className="action-buttons">
                     <li>

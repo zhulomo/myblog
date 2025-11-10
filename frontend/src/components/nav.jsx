@@ -7,7 +7,7 @@ function Nav() {
     const [username, setUsername] = useState("");
 
     useEffect(() => {
-        fetch("http://localhost:8080/loginverify", {
+        fetch("http://localhost:8080/api/loginverify", {
             method: "GET",
             credentials: "include",
         })

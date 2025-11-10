@@ -12,7 +12,7 @@ function Register() {
         e.preventDefault();//阻止表单默认提交行为
 
         try {
-            const res = await fetch("http://localhost:8080/register", {
+            const res = await fetch("http://localhost:8080/api/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ 
@@ -25,7 +25,7 @@ function Register() {
 
             if (data.code === 1) {
                 setMsg("注册成功")
-                setTimeout(() => navigate("/"), 2000);
+                setTimeout(() => navigate("/article/list"), 2000);
             } else {
                 setMsg(data.msg || "用户名已存在");
             }

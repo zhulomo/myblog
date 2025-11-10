@@ -32,10 +32,19 @@ func (R *ArticleController) Get() {
 		return
 	}
 
+	// 确保 Tags 不是 nil
+	// if article.Tags == nil {
+	// 	article.Tags = []*models.Tag{}
+	// }
+
 	if article.Author == loginuser {
 		article := models.Article{Id: id}
 		o := orm.NewOrm()
 		_ = o.Read(&article)
+		// 确保 Tags 不是 nil
+		// if article.Tags == nil {
+		// 	article.Tags = []*models.Tag{}
+		// }
 		R.Data["json"] = map[string]interface{}{
 			"code":    1,
 			"article": article,
@@ -66,8 +75,11 @@ func (R *ArticleController) Post() {
 	// content := R.GetString("content")
 	var req struct {
 		Title    string `json:"title"`
-		Abstract string `json:"absract"`
+		Abstract string `json:"abstract"`
 		Content  string `json:"content"`
+		//CategoryId int      `json:"categoryId"`
+		//TagIds     []int    `json:"tagIds"`
+		//TagNames   []string `json:"tagNames"` // 支持通过标签名称创建
 	}
 	body := R.Ctx.Input.RequestBody
 	json.Unmarshal(body, &req)
@@ -96,6 +108,35 @@ func (R *ArticleController) Post() {
 			CreateTime: time.Now(),
 		}
 
+		// 设置分类
+		// if req.CategoryId > 0 {
+		// 	article.Category = &models.Category{Id: req.CategoryId}
+		// }
+
+		// 处理标签
+		// if len(req.TagIds) > 0 {
+		// 	article.Tags = make([]*models.Tag, 0, len(req.TagIds))
+		// 	for _, tagId := range req.TagIds {
+		// 		if tagId > 0 {
+		// 			tag, err := models.GetTagById(tagId)
+		// 			if err == nil {
+		// 				article.Tags = append(article.Tags, tag)
+		// 			}
+		// 		}
+		// 	}
+		// } else if len(req.TagNames) > 0 {
+		// 	// 通过标签名称创建或获取标签
+		// 	article.Tags = make([]*models.Tag, 0, len(req.TagNames))
+		// 	for _, tagName := range req.TagNames {
+		// 		if tagName != "" {
+		// 			tag, err := models.GetOrCreateTagByName(tagName)
+		// 			if err == nil {
+		// 				article.Tags = append(article.Tags, tag)
+		// 			}
+		// 		}
+		// 	}
+		// }
+
 		_, err := models.ArticleInsert(&article)
 
 		if err != nil {
@@ -111,6 +152,36 @@ func (R *ArticleController) Post() {
 		article.Abstract = req.Abstract
 		article.Author = author
 		article.Content = req.Content
+		// 设置分类
+		// if req.CategoryId > 0 {
+		// 	article.Category = &models.Category{Id: req.CategoryId}
+		// } else {
+		// 	article.Category = nil
+		// }
+
+		// 处理标签
+		// if len(req.TagIds) > 0 {
+		// 	article.Tags = make([]*models.Tag, 0, len(req.TagIds))
+		// 	for _, tagId := range req.TagIds {
+		// 		if tagId > 0 {
+		// 			tag, err := models.GetTagById(tagId)
+		// 			if err == nil {
+		// 				article.Tags = append(article.Tags, tag)
+		// 			}
+		// 		}
+		// 	}
+		// } else if len(req.TagNames) > 0 {
+		// 	// 通过标签名称创建或获取标签
+		// 	article.Tags = make([]*models.Tag, 0, len(req.TagNames))
+		// 	for _, tagName := range req.TagNames {
+		// 		if tagName != "" {
+		// 			tag, err := models.GetOrCreateTagByName(tagName)
+		// 			if err == nil {
+		// 				article.Tags = append(article.Tags, tag)
+		// 			}
+		// 		}
+		// 	}
+		// }
 
 		// o := orm.NewOrm
 		// error := o.Read(&article)
@@ -137,7 +208,7 @@ func (R *ArticleController) DeleteById() {
 	json.Unmarshal(R.Ctx.Input.RequestBody, &req)
 	id := req.Id
 	article, err := models.GetArticleById(id)
-	if err != nil {
+	if err != nil || article == nil {
 		R.Data["json"] = map[string]interface{}{"code": 0, "mas": "文章不存在"}
 		R.ServeJSON()
 		return

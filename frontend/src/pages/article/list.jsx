@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate} from "react-router-dom"
 import Nav from "../../components/nav";
+import { Link } from "react-router-dom";
 import "./List.css";
 
 function List() {
@@ -22,7 +23,7 @@ function List() {
         })
         .then((res) => res.json())
         .then((data) => {
-            console.log("一共",data.total);
+            console.log(data);
             setIsLogin(data.IsLogin || false);
 
             if(data.code === 1 && Array.isArray(data.data)) {
@@ -42,23 +43,25 @@ function List() {
         return <p>加载中...</p>;
     }
     if (articles.length === 0) {
-        return <p>加载文章失败，请刷新页面</p>;
+        return (
+          <>
+            <Nav />
+            <p>没有文章</p>;
+          </>  
+        )            
     }
     return (
       <>
       <Nav />
     <div id="article-list">    
       {articles.map((article) => (
-        <div key={article.Id} className="card article-card">
+        <div key={article.id} className="card article-card">
           <div className="card-body">
-            <h5 className="card-title">{article.Title}</h5>
-            <p className="card-text">{article.Content}</p>
-            <a
-              href={`/article/detail/${article.Id}`}
-              className="btn btn-primary btn-sm"
-            >
-              阅读全文
-            </a>
+            <h5 className="card-title">{article.title}</h5>
+            <p className="card-text">{article.content}</p>
+              <Link to={`/article/detail/${article.id}`} className="btn btn-primary btn-sm">
+                阅读全文
+              </Link>
           </div>
         </div>
       ))}

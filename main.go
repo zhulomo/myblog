@@ -9,7 +9,11 @@ import (
 )
 
 func main() {
-	orm.RunSyncdb("default", false, true)
+	//default 数据库别名，默认default
+	//force true, 强制建表
+	//verbose true 是否打印建表sql过程
+	orm.RunSyncdb("default", false, false)
+
 	beego.SetStaticPath("/static", "static")
 	beego.BConfig.WebConfig.ViewsPath = "views"
 	//session on

@@ -7,7 +7,7 @@ function Logout() {
 
     useEffect(() => {
         
-        fetch("http://localhost:8080/logout", {
+        fetch("http://localhost:8080/api/logout", {
             method: "GET",
             credentials: "include",
         })

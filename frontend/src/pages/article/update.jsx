@@ -18,8 +18,8 @@ function Update() {
     });
     //使用data?.article而不是data.article，更安全不会报错，报错显示undefined
     const article = data?.article
-    console.log("接受的数据：",article.Id)
-    const id =  article.Id;
+    console.log("接受的数据：",article.id)
+    const id =  article.id;
     console.log("id是", id)
     useEffect(() => {
         if(localStorage.getItem("username")  ==  null) {
@@ -30,10 +30,10 @@ function Update() {
     useEffect(() => {
         if (article) {
             setFormData({
-                id: article.Id || "",
-                title: article.Title || "",
-                content: article.Content || "",
-                abstract: article.Abstract || "",
+                id: article.id || "",
+                title: article.title || "",
+                content: article.content || "",
+                abstract: article.abstract || "",
             });
         }
     }, [article]);
@@ -46,7 +46,7 @@ function Update() {
         e.preventDefault();
 
         try {
-            const res = await fetch(`http://localhost:8080/article/update?id=${id}`, {
+            const res = await fetch(`http://localhost:8080/api/article/update?id=${id}`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData),

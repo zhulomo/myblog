@@ -11,7 +11,7 @@ function Login() {
         e.preventDefault();//阻止表单默认提交行为
 
         try {
-            const res = await fetch("http://localhost:8080/login", {
+            const res = await fetch("http://localhost:8080/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ 
@@ -57,6 +57,7 @@ function Login() {
           required
         />
         <button type="submit">登录</button>
+        <button type="submit" onClick={() => navigate("/register")}>注册</button>
       </form>
 
       {msg && <p className="message">{msg}</p>}
